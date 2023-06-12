@@ -5,8 +5,7 @@ const connection = require('./config/db');
 const userRouter = require('./routes/users.router');
 var cookieParser = require('cookie-parser');
 const weatherRouter = require('./routes/weather.routes');
-const winston = require('winston');
-require('winston-mongodb');
+
 const rateLimit = require('express-rate-limit')
 
 app.use(cookieParser())
@@ -29,19 +28,7 @@ app.get('/',(req,res)=>{
 })
 
 
-const logger = winston.createLogger({
-  level: 'error',
-  format: winston.format.json(),
-  defaultMeta: { service: 'user-service' },
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.MongoDB({
-        db:process.env.mongo_url,
-        collection:'error-logs',
-        options:{useUnifiedTopology:true}
-    })
-  ],
-});
+
 
 
 app.use('/users',userRouter);
